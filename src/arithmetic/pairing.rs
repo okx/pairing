@@ -10,6 +10,7 @@ use super::FieldExt;
 pub trait Engine: Sized + 'static + Clone {
     /// This is the scalar field of the engine's groups.
     type Scalar: FieldExt;
+    type Fr: FieldExt;
 
     /// The projective representation of an element in G1.
     type G1: PrimeCurve<Scalar = Self::Scalar, Affine = Self::G1Affine>

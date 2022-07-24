@@ -627,8 +627,10 @@ pub fn pairing(g1: &G1Affine, g2: &G2Affine) -> Gt {
 #[derive(Clone, Debug)]
 pub struct Bn256;
 
+// TODO: impl GpuEngine for Bn256 for gpu feature
 impl Engine for Bn256 {
     type Scalar = Fr;
+    type Fr = Fr;
     type G1 = G1;
     type G1Affine = G1Affine;
     type G2 = G2;
@@ -647,6 +649,12 @@ impl MultiMillerLoop for Bn256 {
     fn multi_miller_loop(terms: &[(&Self::G1Affine, &Self::G2Prepared)]) -> Self::Result {
         multi_miller_loop(terms)
     }
+}
+
+#[cfg(feature = "gpu")]
+impl ec_gpu::GpuEngine for Bn256 {
+    type Scalar = Fr;
+    type Fp = Fq;
 }
 
 #[cfg(test)]

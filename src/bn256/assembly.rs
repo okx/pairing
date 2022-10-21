@@ -9,7 +9,7 @@ macro_rules! assembly_field {
                 let mut r2: u64;
                 let mut r3: u64;
                 unsafe {
-                    asm!(
+                    core::arch::asm!(
                         // load a array to former registers
                         "mov r8, qword ptr [{a_ptr} + 0]",
                         "mov r9, qword ptr [{a_ptr} + 8]",
@@ -64,7 +64,7 @@ macro_rules! assembly_field {
                 let mut r2: u64;
                 let mut r3: u64;
                 unsafe {
-                    asm!(
+                    core::arch::asm!(
                         // schoolbook multiplication
                         //    *    |   a0    |   a1    |   a2    |   a3
                         //    b0   | b0 * a0 | b0 * a1 | b0 * a2 | b0 * a3
@@ -353,7 +353,7 @@ macro_rules! assembly_field {
                 let mut r3: u64;
 
                 unsafe {
-                    asm!(
+                    core::arch::asm!(
                         // The Montgomery reduction here is based on Algorithm 14.32 in
                         // Handbook of Applied Cryptography
                         // <https://cacr.uwaterloo.ca/hac/about/chap14.pdf>.
@@ -538,7 +538,7 @@ macro_rules! assembly_field {
                 let mut r2: u64;
                 let mut r3: u64;
                 unsafe {
-                    asm!(
+                    core::arch::asm!(
                         // schoolbook multiplication
                         //    *    |   a0    |   a1    |   a2    |   a3
                         //    b0   | b0 * a0 | b0 * a1 | b0 * a2 | b0 * a3
@@ -828,7 +828,7 @@ macro_rules! assembly_field {
                 let mut r2: u64;
                 let mut r3: u64;
                 unsafe {
-                    asm!(
+                    core::arch::asm!(
                         // init modulus area
                         "xor r12, r12",
                         "xor r13, r13",
@@ -884,7 +884,7 @@ macro_rules! assembly_field {
                 let mut r2: u64;
                 let mut r3: u64;
                 unsafe {
-                    asm!(
+                    core::arch::asm!(
                         // load a array to former registers
                         "mov r8, qword ptr [{a_ptr} + 0]",
                         "mov r9, qword ptr [{a_ptr} + 8]",
@@ -940,7 +940,7 @@ macro_rules! assembly_field {
                 let mut r2: u64;
                 let mut r3: u64;
                 unsafe {
-                    asm!(
+                    core::arch::asm!(
                         // load a array to former registers
                         "mov r8, qword ptr [{m_ptr} + 0]",
                         "mov r9, qword ptr [{m_ptr} + 8]",

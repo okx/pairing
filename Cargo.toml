@@ -20,16 +20,16 @@ ark-std = { version = "0.3", features = ["print-trace"] }
 
 [dependencies]
 subtle = "2.4"
-ff = "0.11"
-group = "0.11"
+ff = "0.12"
+group = "0.12"
 # pairing = "0.20"
 static_assertions = "1.1.0"
 rand = "0.8"
 rand_core = { version = "0.6", default-features = false }
-ec-gpu = { version = "0.1.0", optional = true }
+ec-gpu = { version = "0.2.0", optional = true }
 
 [features]
-default = []
+default = ["gpu"]
 asm = []
 prefetch = []
 gpu = ["ec-gpu"]

@@ -651,12 +651,6 @@ impl MultiMillerLoop for Bn256 {
     }
 }
 
-#[cfg(feature = "gpu")]
-impl ec_gpu::GpuEngine for Bn256 {
-    type Scalar = Fr;
-    type Fp = Fq;
-}
-
 #[cfg(test)]
 use rand::SeedableRng;
 #[cfg(test)]

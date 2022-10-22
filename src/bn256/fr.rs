@@ -237,6 +237,13 @@ impl ff::PrimeField for Fr {
 }
 
 #[cfg(feature = "gpu")]
+impl ec_gpu::GpuName for Fr {
+    fn name() -> String {
+        "Bn256_Fr".to_owned()
+    }
+}
+
+#[cfg(feature = "gpu")]
 impl ec_gpu::GpuField for Fr {
     fn one() -> Vec<u32> {
         crate::u64_to_u32(&R.0[..])

@@ -40,6 +40,13 @@ new_curve_impl!(
     "bn256_g2"
 );
 
+#[cfg(feature = "gpu")]
+impl ec_gpu::GpuName for G1Affine {
+    fn name() -> String {
+        "Bn256_G1Affine".to_owned()
+    }
+}
+
 const G1_GENERATOR_X: Fq = Fq::one();
 const G1_GENERATOR_Y: Fq = Fq::from_raw([2, 0, 0, 0]);
 const G1_B: Fq = Fq::from_raw([3, 0, 0, 0]);

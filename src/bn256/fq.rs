@@ -278,7 +278,7 @@ impl ff::PrimeField for Fq {
 #[cfg(feature = "gpu")]
 impl ec_gpu::GpuName for Fq {
     fn name() -> String {
-        "Bn256_Fp".to_owned()
+        "Bn256_Fq".to_owned()
     }
 }
 

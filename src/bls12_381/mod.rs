@@ -35,13 +35,15 @@ impl BaseExt for Fq {
     }
 
     fn write<W: std::io::Write>(&self, writer: &mut W) -> std::io::Result<()> {
-        let compressed = self.to_bytes();
+        let mut compressed = self.to_bytes();
+        compressed.reverse();
         writer.write_all(&compressed[..])
     }
 
     fn read<R: std::io::Read>(reader: &mut R) -> std::io::Result<Self> {
         let mut compressed = [0u8; 48];
         reader.read_exact(&mut compressed[..])?;
+        compressed.reverse();
         Option::from(Fq::from_bytes(&compressed)).ok_or_else(|| {
             std::io::Error::new(std::io::ErrorKind::Other, "invalid point encoding in proof")
         })

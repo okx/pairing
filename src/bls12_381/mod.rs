@@ -3,6 +3,7 @@ use ff::PrimeField;
 
 pub use bls12_381::Scalar as Fr;
 pub use bls12_381::Fp as Fq;
+pub use bls12_381::Fp2 as Fp2;
 pub use bls12_381::G1Projective as G1;
 pub use bls12_381::G2Projective as G2;
 pub use bls12_381::{multi_miller_loop, pairing, Bls12, G1Affine, G2Affine, G2Prepared, Gt, MillerLoopResult};

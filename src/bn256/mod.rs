@@ -12,7 +12,9 @@ mod assembly;
 
 pub use engine::*;
 pub use fq::*;
-use fq2::*;
+pub use fq12::*;
+pub use fq2::*;
+pub use fq6::*;
 pub use fr::*;
 pub use g::*;
 

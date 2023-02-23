@@ -184,8 +184,16 @@ impl CurveAffine for G1Affine {
         )
     }
 
-    fn from_xy(_x: Self::Base, _y: Self::Base) -> CtOption<Self> {
-        unimplemented!()
+    fn from_xy(x: Self::Base, y: Self::Base) -> CtOption<Self> {
+        let identity = Self::identity();
+        if x == identity.x && y == identity.y {
+            CtOption::new(identity, Choice::from(1u8))
+        } else {
+            let mut p = Self::generator();
+            p.x = x;
+            p.y = y;
+            CtOption::new(p, p.is_on_curve())
+        }
     }
 
     fn b() -> Self::Base {

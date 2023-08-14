@@ -256,6 +256,27 @@ macro_rules! common_field {
             }
         }
 
+        impl $field {
+            /// Negates `self`.
+            #[inline]
+            pub const fn neg(&self) -> Self {
+                // Subtract `self` from `MODULUS` to negate. Ignore the final
+                // borrow because it cannot underflow; self is guaranteed to
+                // be in the field.
+                let (d0, borrow) = sbb(MODULUS.0[0], self.0[0], 0);
+                let (d1, borrow) = sbb(MODULUS.0[1], self.0[1], borrow);
+                let (d2, borrow) = sbb(MODULUS.0[2], self.0[2], borrow);
+                let (d3, _) = sbb(MODULUS.0[3], self.0[3], borrow);
+
+                // `tmp` could be `MODULUS` if `self` was zero. Create a mask that is
+                // zero if `self` was zero, and `u64::max_value()` if self was nonzero.
+                let mask =
+                    (((self.0[0] | self.0[1] | self.0[2] | self.0[3]) == 0) as u64).wrapping_sub(1);
+
+                $field([d0 & mask, d1 & mask, d2 & mask, d3 & mask])
+            }
+        }
+
         #[cfg(any(not(feature = "asm"), not(target_arch = "x86_64")))]
         impl $field {
             /// Doubles this field element.
@@ -402,25 +423,6 @@ macro_rules! common_field {
                 // Attempt to subtract the modulus, to ensure the value
                 // is smaller than the modulus.
                 (&$field([d0, d1, d2, d3])).sub(&MODULUS)
-            }
-
-            /// Negates `self`.
-            #[inline]
-            pub const fn neg(&self) -> Self {
-                // Subtract `self` from `MODULUS` to negate. Ignore the final
-                // borrow because it cannot underflow; self is guaranteed to
-                // be in the field.
-                let (d0, borrow) = sbb(MODULUS.0[0], self.0[0], 0);
-                let (d1, borrow) = sbb(MODULUS.0[1], self.0[1], borrow);
-                let (d2, borrow) = sbb(MODULUS.0[2], self.0[2], borrow);
-                let (d3, _) = sbb(MODULUS.0[3], self.0[3], borrow);
-
-                // `tmp` could be `MODULUS` if `self` was zero. Create a mask that is
-                // zero if `self` was zero, and `u64::max_value()` if self was nonzero.
-                let mask =
-                    (((self.0[0] | self.0[1] | self.0[2] | self.0[3]) == 0) as u64).wrapping_sub(1);
-
-                $field([d0 & mask, d1 & mask, d2 & mask, d3 & mask])
             }
         }
 

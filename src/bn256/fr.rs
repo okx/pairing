@@ -316,3 +316,68 @@ fn test_from_u512() {
 fn test_field() {
     crate::tests::field::random_field_tests::<Fr>("fr".to_string());
 }
+
+#[test]
+fn test_basic_ops() {
+    use ark_std::{end_timer, start_timer};
+    const CYCLE: usize = 100000000;
+    let lhs = Fr::from_raw([
+        0x5b5f898e5e963f25,
+        0x64ec26aad4c86e71,
+        0x09226b6e22c6f0ca,
+        0x870e56bbe533e9a2,
+    ]);
+    let rhs = Fr::from_raw([
+        0x64ec26aad4c86e71,
+        0x09226b6e22c6f0ca,
+        0x870e56bbe533e9a2,
+        0x5b5f898e5e963f25,
+    ]);
+
+    let mut result = rhs.clone();
+
+    let start = start_timer!(|| "add");
+    for _i in 0..CYCLE {
+        result = result.add(&lhs);
+    }
+    end_timer!(start);
+
+    let start = start_timer!(|| "sub");
+    for _i in 0..CYCLE {
+        result = result.add(&lhs);
+    }
+    end_timer!(start);
+
+    let start = start_timer!(|| "neg");
+    for _i in 0..CYCLE {
+        result = result.neg();
+    }
+    end_timer!(start);
+
+    let start = start_timer!(|| "double");
+    for _i in 0..CYCLE {
+        result = result.double();
+    }
+    end_timer!(start);
+
+    let start = start_timer!(|| "square");
+    for _i in 0..CYCLE {
+        result = result.square();
+    }
+    end_timer!(start);
+
+    let start = start_timer!(|| "mul");
+    for _i in 0..CYCLE {
+        result = result.mul(&lhs);
+    }
+    end_timer!(start);
+
+    let start = start_timer!(|| "montgomery_reduce");
+    for _i in 0..CYCLE {
+        let tmp = lhs.to_repr();
+        result = result.add(&Fr::from_repr(tmp).unwrap());
+    }
+    end_timer!(start);
+
+    println!("result:{}", result);
+}
